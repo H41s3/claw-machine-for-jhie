@@ -8,7 +8,14 @@ import Index from "./pages/Index";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,19 +23,28 @@ const App = () => {
 
   useEffect(() => {
     console.log("App component mounted");
-    setIsLoading(false);
+    // Simulate a small delay to ensure everything is loaded
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
-    return <div className="min-h-screen bg-gradient-to-b from-pink-300 via-pink-500 to-pink-700 flex items-center justify-center">
-      <div className="text-white text-xl">Loading...</div>
-    </div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-pink-300 via-pink-500 to-pink-700 flex items-center justify-center">
+        <div className="text-white text-xl">Loading Claw Machine...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="min-h-screen bg-gradient-to-b from-pink-300 via-pink-500 to-pink-700 flex items-center justify-center">
-      <div className="text-white text-xl">Error: {error}</div>
-    </div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-pink-300 via-pink-500 to-pink-700 flex items-center justify-center">
+        <div className="text-white text-xl">Error: {error}</div>
+      </div>
+    );
   }
 
   return (
@@ -40,7 +56,6 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/favorites" element={<Favorites />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -8,6 +8,11 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  base: mode === 'production' ? '/' : '',
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
   plugins: [
     react(),
   ].filter(Boolean),

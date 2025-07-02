@@ -19,8 +19,6 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     console.log("App component mounted");
     // Simulate a small delay to ensure everything is loaded
@@ -39,13 +37,7 @@ const App = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-pink-300 via-pink-500 to-pink-700 flex items-center justify-center">
-        <div className="text-white text-xl">Error: {error}</div>
-      </div>
-    );
-  }
+
 
   return (
     <QueryClientProvider client={queryClient}>

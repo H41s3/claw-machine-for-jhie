@@ -11,9 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
-.github
-.github/*
-.github/workflows/*
+#.github
+#.github/*
+#.github/workflows/*
 
 # Editor directories and files
 .vscode/*

@@ -4,6 +4,9 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
+// Simple cache to prevent recent repetition (in production, use Redis or similar)
+const recentContent = new Set<string>();
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -25,39 +28,50 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Pet-specific inspiration for more personalized content
-    const petInspirations = [
-      'warmth, comfort, gentle purring, cozy moments', // Cat
-      'loyalty, faithful companionship, unconditional love, playful joy', // Dog  
-      'tenderness, soft touches, gentle hops, peaceful meadows', // Bunny
-      'clever wit, autumn warmth, mysterious beauty, forest magic', // Fox
-      'calm serenity, peaceful balance, gentle strength, zen moments', // Panda
-      'simple joys, natural beauty, refreshing rain, pond reflections' // Frog
+    // Romantic themes for girlfriend-focused content
+    const romanticThemes = [
+      'deep love and passion, intimate moments, romantic gestures, heartfelt emotions', // Passionate
+      'gentle care and tenderness, sweet moments, soft affection, loving support', // Tender
+      'adventure and excitement, shared dreams, growing together, romantic journeys', // Adventurous
+      'peaceful love and harmony, quiet moments together, deep connection, soulful romance', // Peaceful
+      'joyful celebration of love, happy memories, laughter together, romantic fun', // Joyful
+      'mysterious and enchanting love, magical moments, deep attraction, romantic mystery' // Mysterious
     ];
 
-    const petInspiration = petIndex !== undefined ? petInspirations[petIndex % petInspirations.length] : 'love, warmth, connection';
+    // Add variety with different romantic styles
+    const styleVariations = [
+      'deeply romantic and passionate',
+      'sweet and tender',
+      'playful and fun',
+      'soulful and meaningful',
+      'adventurous and exciting',
+      'gentle and nurturing'
+    ];
+
+    const romanticTheme = romanticThemes[Math.floor(Math.random() * romanticThemes.length)];
+    const styleVariation = styleVariations[Math.floor(Math.random() * styleVariations.length)];
 
     let systemPrompt = '';
     let userPrompt = '';
 
     switch (type) {
       case 'poetry':
-        systemPrompt = `You are a heartfelt poet who creates genuine, romantic poetry. Write short, sincere poems that express deep love and care. Avoid clichés, gaming references, or digital metaphors. Focus on real human emotions and connections.`;
-        userPrompt = `Write a short, heartfelt love poem in 1-3 sentences. It should be simple, sincere, and romantic — something you would say to someone you deeply care for. Draw gentle inspiration from themes of ${petInspiration}, but keep it natural and emotionally warm. Avoid clichés and obvious metaphors.`;
+        systemPrompt = `You are a creative poet who writes ${styleVariation} poetry for a girlfriend. Create unique, heartfelt poems that feel personal and genuine. Focus on romantic love, deep emotions, and intimate connections. Each poem should be completely different from typical love poems.`;
+        userPrompt = `Write a short, ${styleVariation} love poem in 1-3 sentences for a girlfriend. Make it unique and unexpected while still being deeply romantic. Draw inspiration from themes of ${romanticTheme}, but be creative and avoid common phrases. Make each word count and create something memorable that expresses deep love.`;
         break;
       case 'quote':
-        systemPrompt = `You are a wise romantic who creates touching quotes about love and relationships. Write genuine, heartfelt quotes that express deep affection. Avoid clichés and focus on authentic emotions.`;
-        userPrompt = `Write a short, heartfelt love quote in 1-2 sentences. It should be simple, sincere, and romantic — something you would say to someone you deeply care for. Draw gentle inspiration from themes of ${petInspiration}, but keep it natural and emotionally warm. Avoid clichés and obvious metaphors.`;
+        systemPrompt = `You are a wise person who creates ${styleVariation} quotes about romantic love and relationships. Write genuine, heartfelt quotes that feel fresh and original. Focus on deep love and authentic emotions. Each quote should be unique and thought-provoking.`;
+        userPrompt = `Write a short, ${styleVariation} love quote in 1-2 sentences for a girlfriend. Make it unique and memorable while still being deeply romantic. Draw inspiration from themes of ${romanticTheme}, but be creative and avoid common phrases. Create something that feels personal and expresses deep love.`;
         break;
       case 'note':
-        systemPrompt = `You are someone deeply in love writing a personal note to their beloved. Write warm, encouraging messages that feel genuine and heartfelt. Avoid clichés and gaming references.`;
-        userPrompt = `Write a sweet, encouraging love note in 1-2 sentences. It should be simple, sincere, and romantic — something you would say to someone you deeply care for. Draw gentle inspiration from themes of ${petInspiration}, but make it feel like a personal message of love and support. Keep it natural and emotionally warm.`;
+        systemPrompt = `You are someone writing a ${styleVariation} personal note to your girlfriend. Write warm, encouraging messages that feel genuine and heartfelt. Focus on romantic love and deep connection. Make each note feel personal and unique.`;
+        userPrompt = `Write a sweet, ${styleVariation} love note in 1-2 sentences for your girlfriend. Make it unique and personal while still being deeply romantic. Draw inspiration from themes of ${romanticTheme}, but be creative and avoid common phrases. Make it feel like a genuine message of deep love from the heart.`;
         break;
       default:
         throw new Error('Invalid content type');
     }
 
-    console.log('🤖 Making request to OpenAI API with inspiration:', petInspiration);
+    console.log('🤖 Making request to OpenAI API with inspiration:', romanticTheme);
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -70,8 +84,8 @@ serve(async (req) => {
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        max_tokens: 150,
-        temperature: 0.8,
+        max_tokens: 200,
+        temperature: 1.2,
       }),
     });
 
@@ -94,11 +108,20 @@ serve(async (req) => {
     // Remove quotes if the AI added them
     const cleanContent = content.replace(/^["']|["']$/g, '');
 
+    // Add to recent content to prevent repetition
+    recentContent.add(cleanContent.toLowerCase());
+    
+    // Keep only last 50 items to prevent memory issues
+    if (recentContent.size > 50) {
+      const firstItem = recentContent.values().next().value;
+      recentContent.delete(firstItem);
+    }
+
     const result = { 
       content: cleanContent,
       type: type,
       author: type === 'note' ? undefined : 'Anonymous',
-      petInspiration: petInspiration
+      romanticTheme: romanticTheme
     };
 
     console.log('🎁 Returning generated content:', result);
@@ -111,15 +134,35 @@ serve(async (req) => {
     
     // Always return a valid response, even if OpenAI fails
     const fallbackContent = {
-      poetry: "In your eyes, I find my home, in your smile, my heart finds peace.",
-      quote: "You are my favorite hello and my hardest goodbye.",
-      note: "Just thinking of you makes my day brighter. You mean everything to me."
+      poetry: [
+        "In your eyes, I find my home, in your smile, my heart finds peace.",
+        "Like starlight dancing on midnight waters, your love illuminates my world.",
+        "Your laughter is the melody my soul has been searching for all along.",
+        "In the garden of my heart, you planted seeds of joy that bloom eternally.",
+        "Your touch is like morning dew, gentle and pure, awakening my spirit."
+      ],
+      quote: [
+        "You are my favorite hello and my hardest goodbye.",
+        "Love is not finding someone to live with, but finding someone you can't live without.",
+        "In a world full of people, my eyes will always search for you.",
+        "You don't just make my heart smile, you make my soul dance.",
+        "Every love story is beautiful, but ours is my favorite."
+      ],
+      note: [
+        "Just thinking of you makes my day brighter. You mean everything to me.",
+        "Your presence in my life is like finding a rainbow after every storm.",
+        "I'm so grateful for the way you make ordinary moments extraordinary.",
+        "You have this incredible way of turning my worries into wonder.",
+        "Thank you for being the person who makes my heart feel safe and loved."
+      ]
     };
 
     const { type } = await req.json().catch(() => ({ type: 'note' }));
+    const contentArray = fallbackContent[type] || fallbackContent.note;
+    const randomContent = contentArray[Math.floor(Math.random() * contentArray.length)];
     
     return new Response(JSON.stringify({ 
-      content: fallbackContent[type] || fallbackContent.note,
+      content: randomContent,
       type: type,
       author: type === 'note' ? undefined : 'Anonymous',
       fallback: true

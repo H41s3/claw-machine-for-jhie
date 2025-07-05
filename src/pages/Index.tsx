@@ -68,20 +68,20 @@ const Index = () => {
     } catch (error) {
       console.error('❌ Error generating AI content:', error);
       
-      // Enhanced fallback with pet-specific content
-      const petFallbacks = [
-        "A purr-fect moment of love! Your feline friend sends digital hugs! 🐱💖",
-        "Loyal love from your digital pup! Woof-derful things await you! 🐶✨", 
-        "Hop into happiness! Your bunny buddy believes you're amazing! 🐰🌟",
-        "Clever and kind, just like a fox! Your spirit shines bright! 🦊💫",
-        "Peaceful panda wisdom: You are loved beyond measure! 🐼💚",
-        "Ribbit! Your frog friend says you're toad-ally awesome! 🐸🌈"
+      // Enhanced fallback with romantic content
+      const romanticFallbacks = [
+        "A perfect moment of love! Your man sends digital hugs! 💖✨",
+        "Loyal love from your sweetheart! Wonderful things await you! 💕🌟", 
+        "Jump into happiness! Your love believes you're amazing! 💫💖",
+        "Clever and kind, just like your heart! Your spirit shines bright! 💎✨",
+        "Peaceful wisdom: You are loved beyond measure! 💚💕",
+        "Sweet! Your love says you're absolutely awesome! 💖🌈"
       ];
       
       return {
         id: `fallback-${Date.now()}`,
         type: 'note',
-        content: petFallbacks[petIndex] || 'Something wonderful is waiting for you! Keep being amazing! ✨',
+        content: romanticFallbacks[petIndex] || 'Something wonderful is waiting for you! Keep being amazing! ✨',
         petIndex: petIndex
       };
     } finally {

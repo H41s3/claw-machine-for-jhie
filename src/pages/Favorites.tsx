@@ -32,9 +32,9 @@ const Favorites = () => {
 
   const getPrizeTypeLabel = (type: string) => {
     switch (type) {
-      case 'poetry': return '📝 PET POETRY';
-      case 'quote': return '💫 SWEET QUOTE';
-      case 'note': return '💌 LOVE NOTE';
+      case 'poetry': return '📝 ILY';
+      case 'quote': return '💫 ENCHANTED';
+      case 'note': return '💌 MY BB';
       default: return '🎁 PRIZE';
     }
   };

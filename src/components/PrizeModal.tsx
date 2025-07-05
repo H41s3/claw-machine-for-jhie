@@ -36,9 +36,9 @@ export const PrizeModal: React.FC<PrizeModalProps> = ({
 
   const getPrizeTypeLabel = () => {
     switch (prize.type) {
-      case 'poetry': return '📝 PET POETRY';
-      case 'quote': return '💫 SWEET QUOTE';
-      case 'note': return '💌 LOVE NOTE';
+      case 'poetry': return '📝 ILY';
+      case 'quote': return '💫 ENCHANTED';
+      case 'note': return '💌 MY BB';
     }
   };
 

@@ -35,7 +35,11 @@ serve(async (req) => {
       'adventure and excitement, shared dreams, growing together, romantic journeys', // Adventurous
       'peaceful love and harmony, quiet moments together, deep connection, soulful romance', // Peaceful
       'joyful celebration of love, happy memories, laughter together, romantic fun', // Joyful
-      'mysterious and enchanting love, magical moments, deep attraction, romantic mystery' // Mysterious
+      'mysterious and enchanting love, magical moments, deep attraction, romantic mystery', // Mysterious
+      'whimsical romance, playful love, sweet surprises, delightful moments', // Whimsical
+      'intense passion, burning desire, electric connection, fiery love', // Intense
+      'quiet devotion, steady love, unwavering commitment, gentle strength', // Devoted
+      'magical romance, fairy tale love, enchanting moments, spellbinding connection' // Magical
     ];
 
     // Add variety with different romantic styles
@@ -45,27 +49,75 @@ serve(async (req) => {
       'playful and fun',
       'soulful and meaningful',
       'adventurous and exciting',
-      'gentle and nurturing'
+      'gentle and nurturing',
+      'whimsical and charming',
+      'intense and passionate',
+      'devoted and loyal',
+      'magical and enchanting'
+    ];
+
+    // Add more variety with specific contexts
+    const contexts = [
+      'morning love',
+      'late night thoughts',
+      'weekend adventures',
+      'quiet moments',
+      'special occasions',
+      'everyday romance',
+      'future dreams',
+      'past memories',
+      'present moments',
+      'timeless love'
+    ];
+
+    // Famous romantic writers and poets for inspiration
+    const famousWriters = [
+      'Pablo Neruda',
+      'Rumi',
+      'William Shakespeare',
+      'Emily Dickinson',
+      'Lord Byron',
+      'Elizabeth Barrett Browning',
+      'Robert Browning',
+      'Sappho',
+      'John Keats',
+      'Percy Bysshe Shelley',
+      'Walt Whitman',
+      'Langston Hughes',
+      'Maya Angelou',
+      'Rainer Maria Rilke',
+      'Khalil Gibran',
+      'Oscar Wilde',
+      'Jane Austen',
+      'Charlotte Brontë',
+      'Victor Hugo',
+      'Alfred Lord Tennyson',
+      'Rupi Kaur',
+      'Courtney Peppernell',
+      'Lang Leav'
     ];
 
     const romanticTheme = romanticThemes[Math.floor(Math.random() * romanticThemes.length)];
     const styleVariation = styleVariations[Math.floor(Math.random() * styleVariations.length)];
+    const context = contexts[Math.floor(Math.random() * contexts.length)];
+    const famousWriter = famousWriters[Math.floor(Math.random() * famousWriters.length)];
+    const timestamp = Date.now(); // Add timestamp for uniqueness
 
     let systemPrompt = '';
     let userPrompt = '';
 
     switch (type) {
       case 'poetry':
-        systemPrompt = `You are a creative poet who writes ${styleVariation} poetry for a girlfriend. Create unique, heartfelt poems that feel personal and genuine. Focus on romantic love, deep emotions, and intimate connections. Each poem should be completely different from typical love poems.`;
-        userPrompt = `Write a short, ${styleVariation} love poem in 1-3 sentences for a girlfriend. Make it unique and unexpected while still being deeply romantic. Draw inspiration from themes of ${romanticTheme}, but be creative and avoid common phrases. Make each word count and create something memorable that expresses deep love.`;
+        systemPrompt = `You are a creative poet who writes ${styleVariation} poetry for a girlfriend. Create unique, heartfelt poems that feel personal and genuine. Focus on romantic love, deep emotions, and intimate connections. Each poem should be completely different from typical love poems. IMPORTANT: Make this poem about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the style of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes!`;
+        userPrompt = `Write a short, ${styleVariation} love poem in 1-3 sentences for a girlfriend. Make it unique and unexpected while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Make each word count and create something memorable that expresses deep love. Draw inspiration from ${famousWriter}'s poetic style but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Include a unique timestamp reference: ${timestamp}.`;
         break;
       case 'quote':
-        systemPrompt = `You are a wise person who creates ${styleVariation} quotes about romantic love and relationships. Write genuine, heartfelt quotes that feel fresh and original. Focus on deep love and authentic emotions. Each quote should be unique and thought-provoking.`;
-        userPrompt = `Write a short, ${styleVariation} love quote in 1-2 sentences for a girlfriend. Make it unique and memorable while still being deeply romantic. Draw inspiration from themes of ${romanticTheme}, but be creative and avoid common phrases. Create something that feels personal and expresses deep love.`;
+        systemPrompt = `You are a wise person who creates ${styleVariation} quotes about romantic love and relationships. Write genuine, heartfelt quotes that feel fresh and original. Focus on deep love and authentic emotions. Each quote should be unique and thought-provoking. IMPORTANT: Make this quote about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the wisdom of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes!`;
+        userPrompt = `Write a short, ${styleVariation} love quote in 1-2 sentences for a girlfriend. Make it unique and memorable while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Create something that feels personal and expresses deep love. Draw inspiration from ${famousWriter}'s wisdom but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Include a unique timestamp reference: ${timestamp}.`;
         break;
       case 'note':
-        systemPrompt = `You are someone writing a ${styleVariation} personal note to your girlfriend. Write warm, encouraging messages that feel genuine and heartfelt. Focus on romantic love and deep connection. Make each note feel personal and unique.`;
-        userPrompt = `Write a sweet, ${styleVariation} love note in 1-2 sentences for your girlfriend. Make it unique and personal while still being deeply romantic. Draw inspiration from themes of ${romanticTheme}, but be creative and avoid common phrases. Make it feel like a genuine message of deep love from the heart.`;
+        systemPrompt = `You are someone writing a ${styleVariation} personal note to your girlfriend. Write warm, encouraging messages that feel genuine and heartfelt. Focus on romantic love and deep connection. Make each note feel personal and unique. IMPORTANT: Make this note about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the romantic style of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes!`;
+        userPrompt = `Write a sweet, ${styleVariation} love note in 1-2 sentences for your girlfriend. Make it unique and personal while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Make it feel like a genuine message of deep love from the heart. Draw inspiration from ${famousWriter}'s romantic style but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Include a unique timestamp reference: ${timestamp}.`;
         break;
       default:
         throw new Error('Invalid content type');
@@ -85,7 +137,7 @@ serve(async (req) => {
           { role: 'user', content: userPrompt }
         ],
         max_tokens: 200,
-        temperature: 1.2,
+        temperature: 1.5,
       }),
     });
 
@@ -109,10 +161,11 @@ serve(async (req) => {
     const cleanContent = content.replace(/^["']|["']$/g, '');
 
     // Add to recent content to prevent repetition
-    recentContent.add(cleanContent.toLowerCase());
+    const contentKey = `${cleanContent.toLowerCase()}-${type}-${timestamp}`;
+    recentContent.add(contentKey);
     
-    // Keep only last 50 items to prevent memory issues
-    if (recentContent.size > 50) {
+    // Keep only last 100 items to prevent memory issues
+    if (recentContent.size > 100) {
       const firstItem = recentContent.values().next().value;
       recentContent.delete(firstItem);
     }
@@ -139,21 +192,42 @@ serve(async (req) => {
         "Like starlight dancing on midnight waters, your love illuminates my world.",
         "Your laughter is the melody my soul has been searching for all along.",
         "In the garden of my heart, you planted seeds of joy that bloom eternally.",
-        "Your touch is like morning dew, gentle and pure, awakening my spirit."
+        "Your touch is like morning dew, gentle and pure, awakening my spirit.",
+        "With every sunrise, I fall deeper into the magic of loving you.",
+        "Your love is the compass that guides my heart through every storm.",
+        "In the quiet moments, your presence fills my soul with endless wonder.",
+        "Like a gentle breeze on a summer evening, your love soothes my spirit.",
+        "You are the missing piece that makes my heart's puzzle complete."
       ],
       quote: [
         "You are my favorite hello and my hardest goodbye.",
         "Love is not finding someone to live with, but finding someone you can't live without.",
         "In a world full of people, my eyes will always search for you.",
         "You don't just make my heart smile, you make my soul dance.",
-        "Every love story is beautiful, but ours is my favorite."
+        "Every love story is beautiful, but ours is my favorite.",
+        "Your love is the greatest adventure I've ever embarked on.",
+        "With you, every day feels like a beautiful new beginning.",
+        "You're not just my love, you're my best friend and soulmate.",
+        "In your arms, I've found my safe haven and my greatest joy.",
+        "Your love makes every moment feel like pure magic.",
+        // Famous literary quotes
+        "Shall I compare thee to a summer's day? Thou art more lovely and more temperate. - William Shakespeare",
+        "I have loved the stars too fondly to be fearful of the night. - Sarah Williams",
+        "Love is not love which alters when it alteration finds. - William Shakespeare",
+        "The best thing to hold onto in life is each other. - Audrey Hepburn",
+        "Love is composed of a single soul inhabiting two bodies. - Aristotle"
       ],
       note: [
         "Just thinking of you makes my day brighter. You mean everything to me.",
         "Your presence in my life is like finding a rainbow after every storm.",
         "I'm so grateful for the way you make ordinary moments extraordinary.",
         "You have this incredible way of turning my worries into wonder.",
-        "Thank you for being the person who makes my heart feel safe and loved."
+        "Thank you for being the person who makes my heart feel safe and loved.",
+        "Every morning I wake up grateful that you're in my life.",
+        "Your love gives me strength I never knew I had.",
+        "You make every day feel like a beautiful adventure.",
+        "Thank you for being the light that brightens my darkest days.",
+        "Your love is the greatest gift I've ever received."
       ]
     };
 

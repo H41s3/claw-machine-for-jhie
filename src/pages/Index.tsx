@@ -44,7 +44,12 @@ const Index = () => {
       // Try to use Supabase, but fallback if it fails
       try {
         const { data, error } = await supabase.functions.invoke('generate-love-content', {
-          body: { type: randomType, petIndex: petIndex }
+          body: { 
+            type: randomType, 
+            petIndex: petIndex,
+            timestamp: Date.now(),
+            randomSeed: Math.random()
+          }
         });
 
         if (error) {
@@ -55,7 +60,7 @@ const Index = () => {
         console.log('✅ Generated content:', data);
 
         return {
-          id: `ai-${Date.now()}-${Math.random()}`,
+          id: `ai-${Date.now()}-${Math.random()}-${petIndex}`,
           type: randomType as 'poetry' | 'quote' | 'note',
           content: data.content,
           author: data.author,
@@ -68,20 +73,37 @@ const Index = () => {
     } catch (error) {
       console.error('❌ Error generating AI content:', error);
       
-      // Enhanced fallback with romantic content
+      // Enhanced fallback with romantic content - randomized each time
       const romanticFallbacks = [
         "A perfect moment of love! Your man sends digital hugs! 💖✨",
         "Loyal love from your sweetheart! Wonderful things await you! 💕🌟", 
         "Jump into happiness! Your love believes you're amazing! 💫💖",
         "Clever and kind, just like your heart! Your spirit shines bright! 💎✨",
         "Peaceful wisdom: You are loved beyond measure! 💚💕",
-        "Sweet! Your love says you're absolutely awesome! 💖🌈"
+        "Sweet! Your love says you're absolutely awesome! 💖🌈",
+        "Your heart radiates pure joy and love! 💕✨",
+        "Magic happens when you smile! Your love adores you! 🌟💖",
+        "You're a treasure beyond compare! Sending warm hugs! 🤗💎",
+        "Your kindness lights up the world! So proud of you! 💫💕",
+        "Dream big, beautiful soul! Your love supports you always! 🌈💖",
+        "Every day with you is a gift! You're absolutely wonderful! 🎁✨",
+        "Your strength inspires everyone around you! Amazing! 💪💕",
+        "Sunshine and rainbows follow you everywhere! So loved! ☀️🌈",
+        "Your laughter is music to the heart! Keep shining! 🎵💖",
+        "Adventure awaits, brave heart! Your love believes in you! 🗺️💫",
+        "You make the world a better place just by being you! 🌍💕",
+        "Sweet dreams are made of moments like these! So special! 💤✨",
+        "Your love story is just beginning! Exciting times ahead! 📖💖",
+        "Every challenge makes you stronger! You're incredible! 💪🌟"
       ];
       
+      // Pick a truly random message instead of using petIndex
+      const randomIndex = Math.floor(Math.random() * romanticFallbacks.length);
+      
       return {
-        id: `fallback-${Date.now()}`,
+        id: `fallback-${Date.now()}-${Math.random()}`,
         type: 'note',
-        content: romanticFallbacks[petIndex] || 'Something wonderful is waiting for you! Keep being amazing! ✨',
+        content: romanticFallbacks[randomIndex],
         petIndex: petIndex
       };
     } finally {

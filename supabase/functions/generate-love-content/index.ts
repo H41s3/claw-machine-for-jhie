@@ -1,4 +1,3 @@
-
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
@@ -33,12 +32,12 @@ serve(async (req) => {
       'deep love and passion, intimate moments, romantic gestures, heartfelt emotions', // Passionate
       'gentle care and tenderness, sweet moments, soft affection, loving support', // Tender
       'adventure and excitement, shared dreams, growing together, romantic journeys', // Adventurous
-      'peaceful love and harmony, quiet moments together, deep connection, soulful romance', // Peaceful
+      'peaceful love and harmony, shared moments together, deep connection, soulful romance', // Peaceful
       'joyful celebration of love, happy memories, laughter together, romantic fun', // Joyful
       'mysterious and enchanting love, magical moments, deep attraction, romantic mystery', // Mysterious
       'whimsical romance, playful love, sweet surprises, delightful moments', // Whimsical
       'intense passion, burning desire, electric connection, fiery love', // Intense
-      'quiet devotion, steady love, unwavering commitment, gentle strength', // Devoted
+      'devoted love, steady commitment, unwavering dedication, gentle strength', // Devoted
       'magical romance, fairy tale love, enchanting moments, spellbinding connection' // Magical
     ];
 
@@ -61,13 +60,13 @@ serve(async (req) => {
       'morning love',
       'late night thoughts',
       'weekend adventures',
-      'quiet moments',
       'special occasions',
       'everyday romance',
       'future dreams',
       'past memories',
       'present moments',
-      'timeless love'
+      'timeless love',
+      'romantic surprises'
     ];
 
     // Famous romantic writers and poets for inspiration
@@ -108,16 +107,16 @@ serve(async (req) => {
 
     switch (type) {
       case 'poetry':
-        systemPrompt = `You are a creative poet who writes ${styleVariation} poetry for a girlfriend. Create unique, heartfelt poems that feel personal and genuine. Focus on romantic love, deep emotions, and intimate connections. Each poem should be completely different from typical love poems. IMPORTANT: Make this poem about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the style of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes!`;
-        userPrompt = `Write a short, ${styleVariation} love poem in 1-3 sentences for a girlfriend. Make it unique and unexpected while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Make each word count and create something memorable that expresses deep love. Draw inspiration from ${famousWriter}'s poetic style but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Include a unique timestamp reference: ${timestamp}.`;
+        systemPrompt = `You are a creative poet who writes ${styleVariation} poetry for a girlfriend. Create unique, heartfelt poems that feel personal and genuine. Focus on romantic love, deep emotions, and intimate connections. Each poem should be completely different from typical love poems. IMPORTANT: Make this poem about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the style of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes! Write complete, coherent sentences that flow naturally. AVOID starting with "In the..." or similar repetitive openings. Be creative and varied in your sentence structure.`;
+        userPrompt = `Write a short, ${styleVariation} love poem in 1-3 complete sentences for a girlfriend. Make it unique and unexpected while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Make each word count and create something memorable that expresses deep love. Draw inspiration from ${famousWriter}'s poetic style but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Write in complete, flowing sentences. AVOID starting with "In the..." or similar repetitive openings. Be creative and varied. Include a unique timestamp reference: ${timestamp}.`;
         break;
       case 'quote':
-        systemPrompt = `You are a wise person who creates ${styleVariation} quotes about romantic love and relationships. Write genuine, heartfelt quotes that feel fresh and original. Focus on deep love and authentic emotions. Each quote should be unique and thought-provoking. IMPORTANT: Make this quote about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the wisdom of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes!`;
-        userPrompt = `Write a short, ${styleVariation} love quote in 1-2 sentences for a girlfriend. Make it unique and memorable while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Create something that feels personal and expresses deep love. Draw inspiration from ${famousWriter}'s wisdom but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Include a unique timestamp reference: ${timestamp}.`;
+        systemPrompt = `You are a wise person who creates ${styleVariation} quotes about romantic love and relationships. Write genuine, heartfelt quotes that feel fresh and original. Focus on deep love and authentic emotions. Each quote should be unique and thought-provoking. IMPORTANT: Make this quote about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the wisdom of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes! Write complete, coherent thoughts that are easy to understand. AVOID starting with "In the..." or similar repetitive openings. Be creative and varied in your sentence structure.`;
+        userPrompt = `Write a short, ${styleVariation} love quote in 1-2 complete sentences for a girlfriend. Make it unique and memorable while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Create something that feels personal and expresses deep love. Draw inspiration from ${famousWriter}'s wisdom but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Write in clear, complete sentences. AVOID starting with "In the..." or similar repetitive openings. Be creative and varied. Include a unique timestamp reference: ${timestamp}.`;
         break;
       case 'note':
-        systemPrompt = `You are someone writing a ${styleVariation} personal note to your girlfriend. Write warm, encouraging messages that feel genuine and heartfelt. Focus on romantic love and deep connection. Make each note feel personal and unique. IMPORTANT: Make this note about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the romantic style of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes!`;
-        userPrompt = `Write a sweet, ${styleVariation} love note in 1-2 sentences for your girlfriend. Make it unique and personal while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Make it feel like a genuine message of deep love from the heart. Draw inspiration from ${famousWriter}'s romantic style but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Include a unique timestamp reference: ${timestamp}.`;
+        systemPrompt = `You are someone writing a ${styleVariation} personal note to your girlfriend. Write warm, encouraging messages that feel genuine and heartfelt. Focus on romantic love and deep connection. Make each note feel personal and unique. IMPORTANT: Make this note about ${context} and use ${romanticTheme} as inspiration. Draw inspiration from the romantic style of ${famousWriter} but make it original. ALWAYS keep it positive, uplifting, and happy - no sad or depressing themes! Write complete, natural sentences that sound like a real person speaking. AVOID starting with "In the..." or similar repetitive openings. Be creative and varied in your sentence structure.`;
+        userPrompt = `Write a sweet, ${styleVariation} love note in 1-2 complete sentences for your girlfriend. Make it unique and personal while still being deeply romantic. Focus on ${context} and draw inspiration from themes of ${romanticTheme}. Be creative and avoid common phrases. Make it feel like a genuine message of deep love from the heart. Draw inspiration from ${famousWriter}'s romantic style but make it completely original. Keep it happy, positive, and uplifting - no sadness or heartbreak! Write in natural, complete sentences. AVOID starting with "In the..." or similar repetitive openings. Be creative and varied. Include a unique timestamp reference: ${timestamp}.`;
         break;
       default:
         throw new Error('Invalid content type');
@@ -188,16 +187,16 @@ serve(async (req) => {
     // Always return a valid response, even if OpenAI fails
     const fallbackContent = {
       poetry: [
-        "In your eyes, I find my home, in your smile, my heart finds peace.",
-        "Like starlight dancing on midnight waters, your love illuminates my world.",
-        "Your laughter is the melody my soul has been searching for all along.",
-        "In the garden of my heart, you planted seeds of joy that bloom eternally.",
-        "Your touch is like morning dew, gentle and pure, awakening my spirit.",
-        "With every sunrise, I fall deeper into the magic of loving you.",
-        "Your love is the compass that guides my heart through every storm.",
-        "In the quiet moments, your presence fills my soul with endless wonder.",
-        "Like a gentle breeze on a summer evening, your love soothes my spirit.",
-        "You are the missing piece that makes my heart's puzzle complete."
+        "Your love is like sunshine breaking through clouds, warming my heart with every smile.",
+        "In your eyes, I see the future we'll build together, beautiful and bright.",
+        "Your laughter echoes in my dreams, making every night feel like a sweet serenade.",
+        "Like stars that guide sailors home, your love lights my path through every storm.",
+        "Your touch ignites fireworks in my soul, painting the sky with colors of joy.",
+        "With every heartbeat, I fall deeper into the magic of loving you completely.",
+        "Your love is the melody that makes my heart sing songs of endless devotion.",
+        "Like morning dew on rose petals, your presence brings beauty to every moment.",
+        "Your smile is the sunrise that brightens my darkest days with pure radiance.",
+        "In your arms, I've found the home my heart has been searching for all along."
       ],
       quote: [
         "You are my favorite hello and my hardest goodbye.",
